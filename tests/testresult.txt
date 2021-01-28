@@ -1,0 +1,26 @@
+Telemetry test report 
+ 
+Generated user: testscript@automatedtest.com 
+API key used: TestAPIKey 
+ 
+DESKTOP API TESTS: 
+ 
+ADD DEVICE - POST 
+Legal request: Pass 
+Illegal request (Not all parameters): Pass 
+Illegal request (Duplicate device): Pass 
+Illegal request (Incorrect API Key): Pass 
+Illegal request (Max number of devices): Pass 
+ 
+GET DEVICE DATA - GET 
+Legal request: Pass 
+Illegal request (Not all headers): Pass 
+Illegal request (Device not exist): Pass 
+Illegal request (Wrong API key): Pass 
+Illegal request (Wrong email): Pass 
+ 
+MODIFY DEVICE DATA - POST 
+Legal request: Pass 
+Illegal request (Wrong email): Pass 
+Illegal request (Not all parameters): Pass 
+Illegal request (Wrong API key): Pass 

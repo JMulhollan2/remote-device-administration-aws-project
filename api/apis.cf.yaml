@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Template for APIGateway CloudFormation stacks
+Transform: AWS::Serverless-2016-10-31 # Probably going to cause issues in the future with CodePipeline from previous experience
+
+Resources:
+  ApiGatewayApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      DefinitionUri: desktop-api.yaml
+      StageName: dev
+#      Variables:
+#        DevPortalFunctionName: !Ref DevPortalLambdaFunction
+#  DesktopAPIStage:
+#    Type: AWS::ApiGateway::Stage
+#    Properties:
+#      StageName: prod
+#      RestApiId: bws1po3z0l
+#      AccessLogSetting:
+#          Format: "String"
+#          DestinationArn: "String"
+ 
+  WebApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      DefinitionUri: web-api.yaml
+      StageName: dev
+#      Variables:
+#        DevPortalFunctionName: !Ref DevPortalLambdaFunction
+#  WebAPIStage:
+#    Type: AWS::ApiGateway::Stage
+#    Properties:
+#      StageName: prod
+#      RestApiId: r51g8mla4c
+#      AccessLogSetting:
+#          Format: "String"
+#          DestinationArn: "String"

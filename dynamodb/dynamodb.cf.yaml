@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Template for DynamoDB CloudFormation stack
+
+Resources:
+  DDBTable:
+    Type: "AWS::DynamoDB::Table"
+    Properties:
+      TableName: "ProjectDynamoDBTable" #!Sub
+      KeySchema:
+        -
+          AttributeName: "Email"
+          KeyType: "HASH"
+      AttributeDefinitions:
+        -
+          AttributeName: "Email"
+          AttributeType: "S"
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+      StreamSpecification:
+        StreamViewType: KEYS_ONLY
+
+  TableStream:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      BatchSize: 1 #trigger one lambda per document
+      Enabled: True
+      EventSourceArn: #trigger event from the data table
+        Fn::GetAtt: [ DDBTable , StreamArn ]
+      FunctionName: arn:aws:lambda:eu-west-1:214370296939:function:DynamodbNgrokInformLambda # Inherit
+      StartingPosition: LATEST #always start at the tail of the stream

@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Master template for nested CloudFormation stacks
+
+Resources:
+  DynamoDBStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn: LambdaStack
+    Properties:
+      #Parameters:
+      TemplateURL: ../dynamodb/dynamodb.cf.yaml
+  LambdaStack:
+    Type: AWS::CloudFormation::Stack
+    #DependsOn:
+    Properties:
+      #Parameters:
+      TemplateURL: ../lambda/lambdas.cf.yaml
+  APIStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn: LambdaStack
+    Properties:
+      #Parameters:
+      TemplateURL: ../api/apis.cf.yaml
+  WebsiteStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn: LambdaStack
+    Properties:
+      #Parameters:
+      TemplateURL: ../s3/website-s3-bucket.cf.yaml
+  CognitoStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn: LambdaStack
+    Properties:
+      #Parameters:
+      TemplateURL: ../cognito/user-pool.cf.yaml

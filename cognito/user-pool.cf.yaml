@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Template for AWS Cognito user pool
+
+Resources:
+  UserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: project-user-pool
+      AutoVerifiedAttributes:
+        - email
+      LambdaConfig:
+        PreSignUp: arn:aws:lambda:eu-west-1:214370296939:function:CognitoSignUpLambda #!Sub
+  UserPoolAppClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      UserPoolId: !Ref UserPool
+      ClientName: project-app-client-cognito

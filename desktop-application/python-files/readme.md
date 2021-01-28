@@ -1,0 +1,23 @@
+# Python Files
+Below is an explanation for each set of Python files contained in this directory.
+
+* [Installer:](/desktop-application/python-files/installer) This Python script copies the telservice folder to the user's C drive, sets up automatic Windows startup, and launches the launch manager, which handles adding a user's device in to the online service.
+* [Launchers:](/desktop-application/python-files/launchers) These Python scripts are associated with the device launcher, for when the application first starts up.
+  * [launch-manager.py:](/desktop-application/python-files/launchers/launch-manager.py) Is the startup service used upon launching the application/windows service to launch the main service and the security 'buddy' service. If there is no device config present, the service will launch the initial 'add device' popup to the user.
+  * [config-generator.py:](/desktop-application/python-files/launchers/config-generator.py) Holds the code to add the device to the main online DB of devices and assign a device to a user. Generates a .json config file as well as sending API requests to online service. Code provided on the web portal is input into the device in order to act as device-specific authentication.
+  * [get_location.py:](/desktop-application/python-files/launchers/get_location.py) Module supporting the main launcher to get device location. Currently accuracy is mediocre and would use a paid service for better accuracy if the service was continued post-project.
+  * [get_time.py:](/desktop-application/python-files/launchers/get_time.py) Module supporting the main launcher to get device uptime.
+  * [get_platform.py:](/desktop-application/python-files/launchers/get_platform.py) Module supporting the main launcher to get device information.
+* [Listeners:](/desktop-application/python-files/listener) This is the main desktop application that will run if launched by the startup manager after verifying a config file is present.
+  * [telservice.py:](/desktop-application/python-files/listener/telservice.py) Is the main service launches that will then call all other modules when required. Handles launching of the ngrok server, and all requests to the central DB on AWS.
+  * [flask_ngrok.py:](/desktop-application/python-files/listener/flask_ngrok.py) This open source softwate allows a secure API to be exposed using the ngrok system to allow a device to recieve realtime requests from the AWS DB and perform actions based off requests using flask. Ngrok is a online service that can be subscribed to if the project was to continue after submission, but for the purpose of the project the code is adapted and uses the free tier.
+  * [log_out_device.py:](/desktop-application/python-files/listener/log_out_device.py) This module simply logs a user out of the computer in the event of theft.
+  * [play_sound.py:](/desktop-application/python-files/listener/play_sound.py) This module plays a Windows sound to demonstrate the ability to find a lost device that may have e.g. fallen down the back of the sofa.
+  * [wipe_device.py:](/desktop-application/python-files/listener/wipe_device.py) This module will programatically delete all files on a user's device in the event of theft. 
+  * [get_location.py:](/desktop-application/python-files/listener/get_location.py) Module supporting the main launcher to get device location. Currently accuracy is mediocre and would use a paid service for better accuracy if the service was continued post-project.
+  * [get_time.py:](/desktop-application/python-files/listener/get_time.py) Module supporting the main launcher to get device uptime.
+  * [get_platform.py:](/desktop-application/python-files/listener/get_platform.py) Module supporting the main launcher to get device information.
+* [RM Modules:](/desktop-application/python-files/rmmodules) These two services are responsible for device resilience and will ensure the main telservice application stays running at all times. 
+  * [RModule:](/desktop-application/python-files/rmmodules/rmodule) This service ensures all aspects of the telemetry service are not interfered with. Specifically this module monitors file deletions, file modifications and the mmodule for changes. If changes/deletion are found, the rmodule will copy over file backups/write config stored in memory to act as resiliance for the application as a whole.
+  * [MModule:](/desktop-application/python-files/rmmodules/mmodule) This service acts as a 'buddy' for the main rmodule. This module will ensure the rmodule is always running and monitoring the telservice.
+* [Startup:](/desktop-application/python-files/startup) This module simply launches the startup manager and sits in the Windows startup directory.

@@ -1,0 +1,21 @@
+.title {
+    padding-top: 5%;
+    padding-bottom: 2px;
+    color: rgb(51, 51, 51);
+    text-align: center;
+    font-family: "Arial";
+    font-size: 60px;
+}
+
+.sub-title {
+    color: rgb(51, 51, 51);
+    text-align: center;
+    font-family: "Arial";
+    font-size: 20px;
+}
+.main-text {
+    color: rgb(51, 51, 51);
+    text-align: center;
+    font-family: "Arial";
+    font-size: 10px;
+}

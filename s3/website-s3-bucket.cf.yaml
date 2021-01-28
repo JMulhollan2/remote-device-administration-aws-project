@@ -1,0 +1,59 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: S3 stack for static website bucket.
+
+Resources:
+  WebsiteS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: prco304-website-static-host-bucket #!Ref
+      VersioningConfiguration:
+        Status: Enabled
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+#        RoutingRules:
+#          - RoutingRuleCondition:
+#              HttpErrorCodeReturnedEquals: 404
+#            RedirectRule:
+#              Protocol: https
+#              HostName: !Ref PublicHostName
+#              ReplaceKeyPrefixWith: '#!/'
+
+  WebsiteBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: prco304-website-static-host-bucket #!Ref
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          -
+            Effect: Allow
+            Action:
+              - s3:GetObject
+            Resource:
+              - !Sub arn:aws:s3:::${WebsiteS3Bucket}
+              - !Sub arn:aws:s3:::${WebsiteS3Bucket}/*
+            Principal: "*"
+
+  DownloadsS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: prco304-public-website-download-bucket #!Ref
+      VersioningConfiguration:
+        Status: Enabled
+
+  DownloadBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: prco304-public-website-download-bucket #!Ref
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          -
+            Effect: Allow
+            Action:
+              - s3:GetObject
+            Resource:
+              - !Sub arn:aws:s3:::${DownloadsS3Bucket}
+              - !Sub arn:aws:s3:::${DownloadsS3Bucket}/*
+            Principal: "*"

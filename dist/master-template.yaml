@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Master template for nested CloudFormation stacks
+Resources:
+  APIStack:
+    DependsOn: LambdaStack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/prco304-bootstrap-bucket/88039c488fecfaa26ac0717d53c1a30a.template
+    Type: AWS::CloudFormation::Stack
+  CognitoStack:
+    DependsOn: LambdaStack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/prco304-bootstrap-bucket/324a72956449a1e1ba2c2026a8bc961c.template
+    Type: AWS::CloudFormation::Stack
+  DynamoDBStack:
+    DependsOn: LambdaStack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/prco304-bootstrap-bucket/22bcd811cdb3b358ae9cd444efdd60c6.template
+    Type: AWS::CloudFormation::Stack
+  LambdaStack:
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/prco304-bootstrap-bucket/221557eb09c061673c5d49347b3a042c.template
+    Type: AWS::CloudFormation::Stack
+  WebsiteStack:
+    DependsOn: LambdaStack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/prco304-bootstrap-bucket/760956f37a68d52adb772cef5d31da3b.template
+    Type: AWS::CloudFormation::Stack

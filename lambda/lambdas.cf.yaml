@@ -1,0 +1,328 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Template for all lambdas
+
+Resources:
+  DesktopModifyDeviceAPILambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: DesktopModifyDeviceAPILambda #!Sub
+      Code: desktop/desktop-modify-device-api-lambda
+      Timeout: 15
+      MemorySize: 128
+      Handler: main.handler
+      Runtime: python3.7
+      Role: !GetAtt DesktopModifyDeviceAPILambdaRole.Arn
+      #Environment:
+        #Variables:
+          #APICacheTable: !Sub ${ResourcePrefix}APIKeyCache
+
+  DesktopModifyDeviceAPILambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:invokeFunction
+      FunctionName: !GetAtt DesktopModifyDeviceAPILambda.Arn
+      Principal: "apigateway.amazonaws.com"
+  
+  DesktopModifyDeviceAPILambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - "lambda.amazonaws.com"
+            Action:
+                - "sts:AssumeRole"
+      Policies:
+        - PolicyName: DesktopModifyDeviceAPIDynamoDBAccess
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Resource: "*"
+                Action:
+                  - dynamodb:GetItem
+                  - dynamodb:PutItem  # Only required actions for this lambda
+                  - dynamodb:UpdateItem
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+  DesktopAddDeviceAPILambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: DesktopAddDeviceAPILambda #!Sub
+      Code: desktop/desktop-add-device-api-lambda
+      Timeout: 15
+      MemorySize: 128
+      Handler: main.handler
+      Runtime: python3.7
+      Role: !GetAtt DesktopAddDeviceAPILambdaRole.Arn
+      #Environment:
+        #Variables:
+          #APICacheTable: !Sub ${ResourcePrefix}APIKeyCache
+
+  DesktopAddDeviceAPILambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:invokeFunction
+      FunctionName: !GetAtt DesktopAddDeviceAPILambda.Arn
+      Principal: "apigateway.amazonaws.com"
+  
+  DesktopAddDeviceAPILambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - "lambda.amazonaws.com"
+            Action:
+                - "sts:AssumeRole"
+      Policies:
+        - PolicyName: DesktopAddDeviceAPIDynamoDBAccess
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Resource: "*"
+                Action:
+                  - dynamodb:GetItem
+                  - dynamodb:PutItem
+                  - dynamodb:UpdateItem
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+  CognitoSignUpLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: CognitoSignUpLambda #!Sub
+      Code: web/cognito-sign-up-lambda
+      Timeout: 15
+      MemorySize: 128
+      Handler: main.handler
+      Runtime: python3.7
+      Role: !GetAtt CognitoSignUpLambdaRole.Arn
+      #Environment:
+        #Variables:
+          #APICacheTable: !Sub ${ResourcePrefix}APIKeyCache
+
+  CognitoSignUpLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:invokeFunction
+      FunctionName: !GetAtt CognitoSignUpLambda.Arn
+      Principal: "apigateway.amazonaws.com"
+  
+  CognitoSignUpLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - "lambda.amazonaws.com"
+            Action:
+                - "sts:AssumeRole"
+      Policies:
+        - PolicyName: CognitoLambdaAccess
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Resource: "*"
+                Action:
+                  - dynamodb:GetItem
+                  - dynamodb:PutItem
+                  - dynamodb:UpdateItem
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+  WebAPILambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: WebAPILambda #!Sub
+      Code: web/web-api-lambda
+      Timeout: 15
+      MemorySize: 128
+      Handler: main.handler
+      Runtime: python3.7
+      Role: !GetAtt WebAPILambdaRole.Arn
+      #Environment:
+        #Variables:
+          #APICacheTable: !Sub ${ResourcePrefix}APIKeyCache
+
+  WebAPILambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:invokeFunction
+      FunctionName: !GetAtt WebAPILambda.Arn
+      Principal: "apigateway.amazonaws.com"
+  
+  WebAPILambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - "lambda.amazonaws.com"
+            Action:
+                - "sts:AssumeRole"
+      Policies:
+        - PolicyName: WebAPILambdaAccess
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Resource: "*"
+                Action:
+                  - dynamodb:GetItem
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+  WebModifyTableAPILambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: WebModifyTableAPILambda #!Sub
+      Code: web/web-modify-table-lambda
+      Timeout: 15
+      MemorySize: 128
+      Handler: main.handler
+      Runtime: python3.7
+      Role: !GetAtt WebModifyTableAPILambdaRole.Arn
+      #Environment:
+        #Variables:
+          #APICacheTable: !Sub ${ResourcePrefix}APIKeyCache
+
+  WebModifyTableAPILambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:invokeFunction
+      FunctionName: !GetAtt WebModifyTableAPILambda.Arn
+      Principal: "apigateway.amazonaws.com"
+  
+  WebModifyTableAPILambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - "lambda.amazonaws.com"
+            Action:
+                - "sts:AssumeRole"
+      Policies:
+        - PolicyName: WebModifyTableAPILambdaAccess
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Resource: "*"
+                Action:
+                  - dynamodb:GetItem
+                  - dynamodb:PutItem
+                  - dynamodb:UpdateItem
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+  DynamodbNgrokInformLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: DynamodbNgrokInformLambda #!Sub
+      Code: desktop/dynamodb-ngrok-inform-lambda
+      Timeout: 15
+      MemorySize: 128
+      Handler: main.handler
+      Runtime: python3.7
+      Role: !GetAtt DynamodbNgrokInformLambdaRole.Arn
+      #Environment:
+        #Variables:
+          #APICacheTable: !Sub ${ResourcePrefix}APIKeyCache
+
+  DynamodbNgrokInformLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:invokeFunction
+      FunctionName: !GetAtt DynamodbNgrokInformLambda.Arn
+      Principal: "apigateway.amazonaws.com"
+  
+  DynamodbNgrokInformLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - "lambda.amazonaws.com"
+            Action:
+                - "sts:AssumeRole"
+      Policies:
+        - PolicyName: DynamodbNgrokInformLambdaAccess
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Resource: "*"
+                Action:
+                  - dynamodb:* # Could do with modify for security
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+  DesktopGetDeviceDataLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: DesktopGetDeviceDataLambda #!Sub
+      Code: desktop/desktop-get-device-data-lambda
+      Timeout: 15
+      MemorySize: 128
+      Handler: main.handler
+      Runtime: python3.7
+      Role: !GetAtt DesktopGetDeviceDataLambdaRole.Arn
+      #Environment:
+        #Variables:
+          #APICacheTable: !Sub ${ResourcePrefix}APIKeyCache
+
+  DesktopGetDeviceDataLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:invokeFunction
+      FunctionName: !GetAtt DesktopGetDeviceDataLambda.Arn
+      Principal: "apigateway.amazonaws.com"
+  
+  DesktopGetDeviceDataLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - "lambda.amazonaws.com"
+            Action:
+                - "sts:AssumeRole"
+      Policies:
+        - PolicyName: DesktopGetDeviceDataLambdaAccess
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Resource: "*"
+                Action:
+                  - dynamodb:GetItem
+                  - dynamodb:PutItem
+                  - dynamodb:UpdateItem
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole

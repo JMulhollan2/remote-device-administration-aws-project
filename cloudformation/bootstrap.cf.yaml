@@ -1,0 +1,13 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Bootstrap for deplying AWS master stack.
+
+Resources:
+  PackageBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: prco304-bootstrap-bucket #!Ref 
+
+Outputs:
+  PackageBucket:
+    Value: !Ref PackageBucket
+    Description: Name of the private S3 bucket used to store CF packaged template artifacts

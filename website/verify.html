@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <title>Telemetry - Verify</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/verify.css">
+    </head>
+    <body>
+        <ul class="nav-bar">
+            <li><a href="index.html" class="nav-bar-image-content"><img src="WebLogo 40.png"/></a></li>
+            <li><a href="register.html" class="nav-bar-content">Register</a></li>
+            <li><a href="download.html" class="nav-bar-content">Download</a></li>
+
+            <li style="float:right"><a href="signin.html" class="nav-bar-content">Sign in</a></li>
+        </ul>
+
+        <section class="form">
+            <h1>Verify email</h1>
+            <form id="verifyForm">
+              <input type="email" id="emailInputVerify" placeholder="Email" maxlength="64" required>
+              <input type="text" id="codeInputVerify" placeholder="Verification Code" pattern=".*" maxlength="32" required>
+              <input type="submit" value="Verify">
+            </form>
+        </section>
+
+        <ul class="lower-nav-bar">
+            <li style="float:right"><a class="nav-bar-content">James Mulholland, BSc Computer and Information Security</a></li>
+        </ul>
+
+        <script src="js/vendor/jquery-3.1.0.js"></script>
+        <script src="js/vendor/bootstrap.min.js"></script>
+        <script src="js/vendor/aws-cognito-sdk.min.js"></script>
+        <script src="js/vendor/amazon-cognito-identity.min.js"></script>
+        <script src="js/config.js"></script>
+        <script src="js/cognito-auth.js"></script>
+    </body>
+</html>
